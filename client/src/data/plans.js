@@ -5,12 +5,8 @@ export const plans = [
     actualPrice: 200,
     offerPrice: 180,
     duration: "day",
-    features: [
-      "2 Meals Delivered",
-      "Free Delivery",
-      "Pause/Resume Anytime",
-      "2 ",
-    ],
+    features: ["2 Meals Delivered"],
+    excludedFeatures: ["Free Delivery", "Pause/Resume Anytime"],
   },
   {
     id: "weekly",
@@ -18,12 +14,8 @@ export const plans = [
     actualPrice: 1025,
     offerPrice: 950,
     duration: "week",
-    features: [
-      "14 Meals Delivered",
-      "Free Delivery",
-      "Pause/Resume Anytime",
-      "2 ",
-    ],
+    features: ["14 Meals Delivered", "Free Delivery", "Pause/Resume Anytime"],
+    excludedFeatures: [],
   },
   {
     id: "monthly",
@@ -31,12 +23,8 @@ export const plans = [
     actualPrice: 4400,
     offerPrice: 3500,
     duration: "month",
-    features: [
-      "60 Meals Delivered",
-      "Free Delivery",
-      "Pause/Resume Anytime",
-      "No Repetition Guarantee",
-    ],
+    features: ["60 Meals Delivered", "Free Delivery", "Pause/Resume Anytime"],
+    excludedFeatures: [],
   },
   // {
   //   id: "custom",
@@ -48,7 +36,7 @@ export const plans = [
   //     "14 Meals Delivered",
   //     "Free Delivery",
   //     "Pause/Resume Anytime",
-  //     "2 ",
   //   ],
+  //   excludedFeatures: [],
   // },
 ];

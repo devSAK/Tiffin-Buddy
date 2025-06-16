@@ -12,7 +12,7 @@ export default function Dashboard({ onLoginClick, isAuthenticated, onLogout }) {
         isAuthenticated={isAuthenticated}
         onLogout={onLogout}
       />
-      <main className="p-4 text-center text-xl space-y-8">
+      <main className="p-4 text-center text-xl space-y-8 dark:bg-black">
         <section>
           <h2 className="text-2xl font-bold mb-4 text-center">
             Our Meal Options
@@ -44,6 +44,7 @@ export default function Dashboard({ onLoginClick, isAuthenticated, onLogout }) {
                 offerPrice={plan.offerPrice}
                 duration={plan.duration}
                 features={plan.features}
+                excludedFeatures={plan.excludedFeatures}
               />
             ))}
           </div>

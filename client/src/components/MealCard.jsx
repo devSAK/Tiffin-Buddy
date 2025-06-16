@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Star, StarBorder } from "@mui/icons-material";
-import { useCart } from "../context/CartContext"; // Optional, if ordering adds to cart
+import { useCart } from "../context/CartContext";
 
 export default function MealCard({
   id,
@@ -11,7 +11,7 @@ export default function MealCard({
   rating,
 }) {
   const [hoveredRating, setHoveredRating] = useState(0);
-  const { addToCart } = useCart(); // Optional
+  const { addToCart } = useCart();
 
   const renderStars = () => {
     const fullStars = hoveredRating || rating;
@@ -25,7 +25,6 @@ export default function MealCard({
   };
 
   return (
-    // <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col justify-between w-full max-w-sm mx-auto">
     <div
       className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 flex flex-col justify-between w-full max-w-sm mx-auto text-gray-800 dark:text-white
   hover:ring-2 hover:ring-blue-500 hover:shadow-lg hover:scale-105 transition duration-300 ease-in-out cursor-pointer"
