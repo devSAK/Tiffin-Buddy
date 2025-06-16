@@ -51,7 +51,7 @@ export default function MealCard({
 
       <button
         onClick={() => addToCart({ id, title, price: value })}
-        className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition"
+        className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition font-thin"
       >
         Order Now
       </button>

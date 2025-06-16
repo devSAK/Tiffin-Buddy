@@ -3,6 +3,7 @@ import { meals } from "../data/meals";
 import { plans } from "../data/plans";
 import MealCard from "../components/MealCard";
 import SubscriptionCard from "../components/SubscriptionCard";
+import OffersCarousel from "../components/OffersCarousel";
 
 export default function Dashboard({ onLoginClick, isAuthenticated, onLogout }) {
   return (
@@ -13,6 +14,9 @@ export default function Dashboard({ onLoginClick, isAuthenticated, onLogout }) {
         onLogout={onLogout}
       />
       <main className="p-4 text-center text-xl space-y-8 dark:bg-black">
+        <section>
+          <OffersCarousel />
+        </section>
         <section>
           <h2 className="text-2xl font-bold mb-4 text-center">
             Our Meal Options

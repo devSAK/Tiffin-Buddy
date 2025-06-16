@@ -2,7 +2,7 @@ export const meals = [
   {
     id: 1,
     title: "Veg Meal",
-    image: "/veg.jpg",
+    image: "/veg.png",
     type: "veg",
     value: 60.0,
     rating: 4,
@@ -12,7 +12,7 @@ export const meals = [
   {
     id: 2,
     title: "Soya Meal",
-    image: "/veg.jpg",
+    image: "/soya.png",
     type: "chicken",
     value: 65.0,
     rating: 4,
@@ -22,7 +22,7 @@ export const meals = [
   {
     id: 3,
     title: "Egg Meal",
-    image: "/egg.jpg",
+    image: "/egg.png",
     type: "egg",
     value: 75.0,
     rating: 5,
@@ -31,7 +31,7 @@ export const meals = [
   {
     id: 4,
     title: "Fish Meal",
-    image: "/fish.jpg",
+    image: "/fish.png",
     type: "fish",
     value: 90.0,
     rating: 4.5,
@@ -40,7 +40,7 @@ export const meals = [
   {
     id: 5,
     title: "Chicken Meal",
-    image: "/chicken.jpg",
+    image: "/chicken.png",
     type: "chicken",
     value: 105.0,
     rating: 4,

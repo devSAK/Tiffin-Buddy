@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
+import { signup } from "../api/auth"; // assuming you have a wrapper OR replace with axios directly
+import axios from "axios";
 
 export default function Signup({ onSwitch, onLoginSuccess }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const validate = () => {
     const newErrors = {};
@@ -37,27 +40,29 @@ export default function Signup({ onSwitch, onLoginSuccess }) {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log({ identifier, password });
-
-    // Example placeholder for API call
+    setLoading(true);
     try {
-      const response = await axios.post("/api/signup", {
+      const res = await axios.post("http://localhost:5111/api/auth/signup", {
         identifier,
         password,
       });
-      console.log(response.data);
-      onLoginSuccess(); // Redirect or trigger login success after signup
-    } catch (error) {
-      console.error("Signup failed", error);
+
+      alert("Signup successful!");
+      onSwitch(); // Switch to login after successful signup
+    } catch (err) {
+      console.error("Signup failed:", err.response?.data || err.message);
+      alert(err.response?.data?.message || "Signup failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md">
+    <div className="w-full max-w-md bg-white dark:bg-gray-900 p-8 rounded-xl shadow-md text-gray-800 dark:text-white">
       <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
       <form onSubmit={handleSignup} className="space-y-4">
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">
+          <label className="block mb-1 text-sm font-medium">
             Email or Phone
           </label>
           <input
@@ -78,9 +83,7 @@ export default function Signup({ onSwitch, onLoginSuccess }) {
         </div>
 
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">
-            Password
-          </label>
+          <label className="block mb-1 text-sm font-medium">Password</label>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -102,7 +105,7 @@ export default function Signup({ onSwitch, onLoginSuccess }) {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-600"
+                className="absolute inset-y-0 right-3 flex items-center text-gray-600 dark:text-gray-300"
               >
                 {showPassword ? (
                   <VisibilityOff fontSize="small" />
@@ -119,14 +122,19 @@ export default function Signup({ onSwitch, onLoginSuccess }) {
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-200"
+          disabled={loading}
+          className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-200 disabled:opacity-50"
         >
-          Sign Up
+          {loading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
+
       <p className="text-sm mt-4 text-center">
         Already have an account?{" "}
-        <button onClick={onSwitch} className="text-blue-600 hover:underline">
+        <button
+          onClick={onSwitch}
+          className="text-blue-600 dark:text-blue-400 hover:underline"
+        >
           Login
         </button>
       </p>

@@ -53,12 +53,12 @@ export default function SubscriptionCard({
         ))}
       </ul>
 
-      <button className="mb-3 w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition">
+      <button className="mb-3 w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition font-thin">
         Meal Chart
       </button>
       <button
         onClick={() => addToCart({ id, title, duration, price: offerPrice })}
-        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
+        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition font-thin"
       >
         Choose Plan
       </button>

@@ -2,9 +2,11 @@ import { useState } from "react";
 import DarkModeToggle from "./DarkModeToggle";
 import CartDrawer from "./CartDrawer";
 import { ShoppingCart } from "@mui/icons-material";
+import { useAuth } from "../context/AuthContext.jsx";
 
-export default function Header({ onLoginClick, isAuthenticated, onLogout }) {
+export default function Header({ onLoginClick }) {
   const [cartOpen, setCartOpen] = useState(false);
+  const { isAuthenticated, logout, user } = useAuth();
 
   return (
     <header className="w-full bg-white dark:bg-gray-900 p-4 shadow flex justify-between items-center">
@@ -16,8 +18,7 @@ export default function Header({ onLoginClick, isAuthenticated, onLogout }) {
 
       <div className="flex items-center space-x-4">
         <DarkModeToggle />
-
-        {!isAuthenticated ? (
+        {/* {!isAuthenticated ? (
           <button
             onClick={onLoginClick}
             className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
@@ -30,6 +31,26 @@ export default function Header({ onLoginClick, isAuthenticated, onLogout }) {
             className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
           >
             Logout
+          </button>
+        )} */}
+        {isAuthenticated ? (
+          <>
+            <span className="text-gray-800 dark:text-white">
+              {user?.identifier}
+            </span>
+            <button
+              onClick={logout}
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={onLoginClick}
+            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+          >
+            Login
           </button>
         )}
 

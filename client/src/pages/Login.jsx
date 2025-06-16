@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import axios from "axios";
+import { login } from "../api/auth";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login({ onSwitch }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const { login } = useAuth();
 
   const validate = () => {
     const newErrors = {};
@@ -38,8 +40,14 @@ export default function Login({ onSwitch }) {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log({ identifier, password });
-    // Place Axios POST call to backend here
+    try {
+      const res = await login(identifier, password);
+      alert("Login success!");
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      onLoginSuccess(); // trigger dashboard update
+    } catch (err) {
+      alert(err.response?.data?.message || "Login failed.");
+    }
   };
 
   return (
