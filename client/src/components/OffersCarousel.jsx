@@ -6,8 +6,8 @@ const bannerOffers = [
   {
     title: "FLAT ₹75 OFF",
     subtitle: "on Weekly Subscription Plans!",
-    description: "Healthy & Delicious Veg Tiffins Delivered Daily",
-    image: "egg.png",
+    description: "Healthy & Delicious Meals Delivered Daily",
+    image: "soya.png",
   },
   {
     title: "FLAT ₹900 OFF",
@@ -19,7 +19,7 @@ const bannerOffers = [
     title: "FREE Delivery",
     subtitle: "on Weekly & Monthly Subscription Plans!",
     description: "Perfect for protein lovers on a budget.",
-    image: "fish.png",
+    image: "chicken.png",
   },
 ];
 
