@@ -6,7 +6,8 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-600 dark:text-gray-300 text-sm">
         <div>
           <img
-            src="../../public/logo.png"
+            src="/logo.png"
+            alt="Logo"
             className="h-12 w-12 object-cover rounded-lg mb-2"
           />
           <p>

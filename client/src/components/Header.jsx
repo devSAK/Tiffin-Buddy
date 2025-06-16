@@ -9,7 +9,8 @@ export default function Header({ onLoginClick, isAuthenticated, onLogout }) {
   return (
     <header className="w-full bg-white dark:bg-gray-900 p-4 shadow flex justify-between items-center">
       <img
-        src="../../public/logo.png"
+        src="/logo.png"
+        alt="Logo"
         className="h-12 w-12 object-cover rounded-lg"
       />
 
