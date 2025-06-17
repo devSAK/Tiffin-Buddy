@@ -9,6 +9,7 @@ export default function MealCard({
   description,
   value,
   rating,
+  setCartOpen,
 }) {
   const [hoveredRating, setHoveredRating] = useState(0);
   const { addToCart } = useCart();
@@ -24,16 +25,24 @@ export default function MealCard({
     );
   };
 
+  const handleOrder = () => {
+    addToCart({ id, title, price: value });
+    if (setCartOpen) setCartOpen(true);
+  };
+
   return (
     <div
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 flex flex-col justify-between w-full max-w-sm mx-auto text-gray-800 dark:text-white
-  hover:ring-2 hover:ring-blue-500 hover:shadow-lg hover:scale-105 transition duration-300 ease-in-out cursor-pointer"
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col justify-between w-full max-w-sm mx-auto text-gray-800 dark:text-white
+      hover:ring-2 hover:ring-blue-500 hover:shadow-lg hover:scale-105 transition duration-300 ease-in-out cursor-pointer"
     >
-      <img
-        src={image}
-        alt={title}
-        className="h-40 w-full object-cover rounded-lg"
-      />
+      <div className="w-full overflow-hidden rounded-lg">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-auto object-cover rounded-lg"
+          style={{ maxHeight: "240px" }}
+        />
+      </div>
 
       <div className="mt-4 flex-1">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white">
@@ -50,7 +59,7 @@ export default function MealCard({
       </div>
 
       <button
-        onClick={() => addToCart({ id, title, price: value })}
+        onClick={handleOrder}
         className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition font-thin"
       >
         Order Now

@@ -23,12 +23,12 @@ export default function Footer() {
           </h3>
           <ul className="space-y-1">
             <li>
-              <a href="#" className="hover:text-blue-500">
+              <a href="/privacy-policy" className="hover:text-blue-500">
                 Privacy Policy
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-500">
+              <a href="/terms-and-conditions" className="hover:text-blue-500">
                 Terms & Conditions
               </a>
             </li>

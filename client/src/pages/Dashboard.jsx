@@ -1,23 +1,19 @@
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import { meals } from "../data/meals";
 import { plans } from "../data/plans";
 import MealCard from "../components/MealCard";
 import SubscriptionCard from "../components/SubscriptionCard";
 import OffersCarousel from "../components/OffersCarousel";
+import ContactUs from "../components/ContactUs";
 
-export default function Dashboard({ onLoginClick, isAuthenticated, onLogout }) {
+export default function Dashboard({ setCartOpen }) {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header
-        onLoginClick={onLoginClick}
-        isAuthenticated={isAuthenticated}
-        onLogout={onLogout}
-      />
       <main className="p-4 text-center text-xl space-y-8 dark:bg-black">
         <section>
           <OffersCarousel />
         </section>
-        <section>
+        <section id="mealsCard" className="scroll-mt-20">
           <h2 className="text-2xl font-bold mb-4 text-center">
             Our Meal Options
           </h2>
@@ -30,12 +26,13 @@ export default function Dashboard({ onLoginClick, isAuthenticated, onLogout }) {
                 description={meal.description}
                 value={meal.value}
                 rating={meal.rating}
+                setCartOpen={setCartOpen}
               />
             ))}
           </div>
         </section>
 
-        <section>
+        <section id="subscription" className="scroll-mt-20">
           <h2 className="text-2xl font-bold mb-4 text-center">
             Subscription Plans
           </h2>
@@ -52,6 +49,16 @@ export default function Dashboard({ onLoginClick, isAuthenticated, onLogout }) {
               />
             ))}
           </div>
+        </section>
+        <section id="contactus" className="scroll-mt-20">
+          <h2 className="text-2xl font-bold mb-4 text-center">Contact Us</h2>
+          <div className="max-w-4xl mx-auto text-center mb-8">
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+              We'd love to hear from you. Please fill out the form below and
+              we'll get back to you as soon as possible.
+            </p>
+          </div>
+          <ContactUs />
         </section>
       </main>
     </div>

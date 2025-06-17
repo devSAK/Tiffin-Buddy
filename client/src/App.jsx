@@ -1,16 +1,19 @@
 import { useState } from "react";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import Footer from "./components/Footer";
-import WhatsAppButton from "./components/WhatsAppButton";
 import CheckoutPage from "./pages/CheckoutPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import MainLayout from "./layout/MainLayout";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
@@ -25,13 +28,9 @@ export default function App() {
     setShowLogin(true);
   };
 
-  const handleHideLogin = () => {
-    setShowLogin(false);
-  };
-
   if (showLogin && !isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-950">
         {isSignup ? (
           <Signup
             onSwitch={() => setIsSignup(false)}
@@ -48,17 +47,64 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-white flex flex-col">
-      <div className="flex-grow">
-        <Dashboard
-          onLoginClick={handleShowLogin}
-          isAuthenticated={isAuthenticated}
-          onLogout={handleLogout}
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <MainLayout
+              onLoginClick={handleShowLogin}
+              isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+              cartOpen={cartOpen}
+              setCartOpen={setCartOpen}
+            >
+              <Dashboard
+                onLoginClick={handleShowLogin}
+                isAuthenticated={isAuthenticated}
+                onLogout={handleLogout}
+                setCartOpen={setCartOpen}
+              />
+            </MainLayout>
+          }
         />
-      </div>
-      <Footer />
-      <WhatsAppButton />
-      {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
-    </div>
+        <Route
+          path="/checkout"
+          element={
+            <MainLayout
+              onLoginClick={handleShowLogin}
+              isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+            >
+              <CheckoutPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/privacy-policy"
+          element={
+            <MainLayout
+              onLoginClick={handleShowLogin}
+              isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+            >
+              <PrivacyPolicy />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/terms-and-conditions"
+          element={
+            <MainLayout
+              onLoginClick={handleShowLogin}
+              isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+            >
+              <TermsAndConditions />
+            </MainLayout>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
