@@ -12,7 +12,9 @@ export default function MainLayout({
   onLogout,
   cartOpen,
   setCartOpen,
+  cartItems = [],
 }) {
+  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-white">
       <Header
@@ -20,6 +22,7 @@ export default function MainLayout({
         isAuthenticated={isAuthenticated}
         onLogout={onLogout}
         setCartOpen={setCartOpen}
+        cartItemCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
       />
       <main className="flex-grow">{children}</main>
       <Footer />

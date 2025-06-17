@@ -14,3 +14,11 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* index.css */
+body {
+  font-family: "Inter", "Roboto", "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

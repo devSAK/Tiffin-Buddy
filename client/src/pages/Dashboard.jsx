@@ -5,6 +5,7 @@ import MealCard from "../components/MealCard";
 import SubscriptionCard from "../components/SubscriptionCard";
 import OffersCarousel from "../components/OffersCarousel";
 import ContactUs from "../components/ContactUs";
+import CustomerFeedback from "../components/CustomerFeedback";
 
 export default function Dashboard({ setCartOpen }) {
   return (
@@ -50,15 +51,36 @@ export default function Dashboard({ setCartOpen }) {
             ))}
           </div>
         </section>
-        <section id="contactus" className="scroll-mt-20">
-          <h2 className="text-2xl font-bold mb-4 text-center">Contact Us</h2>
-          <div className="max-w-4xl mx-auto text-center mb-8">
-            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-              We'd love to hear from you. Please fill out the form below and
-              we'll get back to you as soon as possible.
+        <section
+          id="feedback"
+          className="bg-gray-50 dark:bg-gray-900 py-16 px-4 sm:px-6 lg:px-8"
+        >
+          <div className="max-w-7xl mx-auto text-center">
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              What Our Customers Say
+            </h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-300">
+              Real feedback from our happy customers
             </p>
+            <CustomerFeedback />
           </div>
-          <ContactUs />
+        </section>
+        <section
+          id="contactus"
+          className="w-full bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8"
+        >
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl font-bold mb-4 text-center">
+                Get in Touch
+              </h2>
+              <p className="mt-2 text-gray-600 dark:text-gray-300 text-lg">
+                We'd love to hear from you. Fill out the form and we'll get back
+                to you shortly.
+              </p>
+            </div>
+            <ContactUs />
+          </div>
         </section>
       </main>
     </div>

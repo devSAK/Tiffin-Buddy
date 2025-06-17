@@ -9,11 +9,23 @@ export function useCart() {
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
+  // const addToCart = (item) => {
+  //   setCartItems((prev) => {
+  //     const exists = prev.find((i) => i.id === item.id);
+  //     if (exists) return prev;
+  //     return [...prev, item];
+  //   });
+  // };
   const addToCart = (item) => {
-    setCartItems((prev) => {
-      const exists = prev.find((i) => i.id === item.id);
-      if (exists) return prev;
-      return [...prev, item];
+    setCartItems((prevItems) => {
+      const existing = prevItems.find((i) => i.id === item.id);
+      if (existing) {
+        return prevItems.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
+      } else {
+        return [...prevItems, { ...item, quantity: 1 }];
+      }
     });
   };
 
