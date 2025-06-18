@@ -23,22 +23,34 @@ export default function Footer() {
           </h3>
           <ul className="space-y-1">
             <li>
-              <a href="/privacy-policy" className="hover:text-blue-500">
+              <a
+                href="/privacy-policy"
+                className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
+              >
                 Privacy Policy
               </a>
             </li>
             <li>
-              <a href="/terms-and-conditions" className="hover:text-blue-500">
+              <a
+                href="/terms-and-conditions"
+                className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
+              >
                 Terms & Conditions
               </a>
             </li>
             <li>
-              <a href="/legal-info" className="hover:text-blue-500">
+              <a
+                href="/legal-info"
+                className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
+              >
                 Legal Info
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-500">
+              <a
+                href="#"
+                className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
+              >
                 Contact Us
               </a>
             </li>

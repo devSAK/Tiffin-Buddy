@@ -22,10 +22,14 @@ export const plans = [
   {
     id: "monthly",
     title: "Monthly Plan",
-    actualPrice: 4400,
+    actualPrice: 4150,
     offerPrice: 3500,
     duration: "month",
-    features: ["60 Meals Delivered", "Free Delivery", "Pause/Resume Anytime"],
+    features: [
+      "55 Meals + 1 Prime Meal Delivered",
+      "Free Delivery",
+      "Pause/Resume Anytime",
+    ],
     excludedFeatures: [],
     whatsappCatId: "9518796684891080/918343881788",
   },

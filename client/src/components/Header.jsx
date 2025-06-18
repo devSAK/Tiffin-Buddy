@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, Close, ShoppingCart } from "@mui/icons-material";
 import DarkModeToggle from "./DarkModeToggle";
-import { Badge } from "@mui/material";
+// import { Badge } from "@mui/material";
 
 export default function Header({
   onLoginClick,
@@ -13,15 +13,26 @@ export default function Header({
   cartItemCount,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const totalItems = (cartItems || []).reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
+  const [activeSection, setActiveSection] = useState("");
+
+  // const totalItems = (cartItems || []).reduce(
+  //   (acc, item) => acc + item.quantity,
+  //   0
+  // );
+
+  // const handleScroll = (id) => {
+  //   const el = document.getElementById(id);
+  //   if (el) {
+  //     el.scrollIntoView({ behavior: "smooth" });
+  //     setMenuOpen(false);
+  //   }
+  // };
 
   const handleScroll = (id) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(id);
       setMenuOpen(false);
     }
   };
@@ -42,19 +53,34 @@ export default function Header({
         </div>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex space-x-6 text-gray-800 dark:text-white font-medium flex-1">
-          <button onClick={() => handleScroll("")}>Home</button>
-          <button onClick={() => handleScroll("mealsCard")}>Meals</button>
-          <button onClick={() => handleScroll("subscription")}>
-            Subscription
-          </button>
-          <button onClick={() => handleScroll("contactus")}>Contact Us</button>
+        <nav className="hidden md:flex space-x-6 font-medium text-gray-800 dark:text-white flex-1">
+          {[
+            { id: "home", label: "Home" },
+            { id: "meals", label: "Meals" },
+            { id: "subscription", label: "Subscription" },
+            { id: "contactus", label: "Contact Us" },
+          ].map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => handleScroll(id)}
+              className={`relative pb-1 transition-all duration-400 hover:text-yellow-500 dark:hover:text-yellow-300 ${
+                activeSection === id
+                  ? "text-yellow-500 dark:text-yellow-300 font-medium"
+                  : ""
+              }`}
+            >
+              {label}
+              {activeSection === id && (
+                <span className="absolute left-0 bottom-0 h-[2px] w-full bg-yellow-500 dark:bg-yellow-300 rounded-full transition-all duration-300"></span>
+              )}
+            </button>
+          ))}
         </nav>
 
         {/* Right Section (desktop only) */}
         <div className="hidden md:flex items-center space-x-4 ml-auto">
           <DarkModeToggle />
-          {isAuthenticated ? (
+          {/* {isAuthenticated ? (
             <>
               <span className="text-gray-800 dark:text-white">
                 {user?.identifier}
@@ -73,7 +99,7 @@ export default function Header({
             >
               Login
             </button>
-          )}
+          )} */}
 
           {/* <div className="relative">
             <button
@@ -118,8 +144,8 @@ export default function Header({
       {menuOpen && (
         <div className="md:hidden mt-3 px-6 py-4 bg-white dark:bg-gray-800 space-y-4">
           <nav className="flex flex-col space-y-3 text-gray-800 dark:text-white">
-            <button onClick={() => handleScroll("")}>Home</button>
-            <button onClick={() => handleScroll("mealsCard")}>Meals</button>
+            <button onClick={() => handleScroll("home")}>Home</button>
+            <button onClick={() => handleScroll("meals")}>Meals</button>
             <button onClick={() => handleScroll("subscription")}>
               Subscription
             </button>
@@ -128,7 +154,7 @@ export default function Header({
             </button>
           </nav>
 
-          <div className="flex flex-col space-y-3 mt-3">
+          {/* <div className="flex flex-col space-y-3 mt-3">
             {isAuthenticated ? (
               <>
                 <span className="text-gray-800 dark:text-white text-sm">
@@ -149,7 +175,7 @@ export default function Header({
                 Login
               </button>
             )}
-          </div>
+          </div> */}
         </div>
       )}
     </header>

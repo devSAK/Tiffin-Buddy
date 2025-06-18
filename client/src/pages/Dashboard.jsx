@@ -1,6 +1,6 @@
-// import Header from "../components/Header";
 import { meals } from "../data/meals";
 import { plans } from "../data/plans";
+
 import MealCard from "../components/MealCard";
 import SubscriptionCard from "../components/SubscriptionCard";
 import OffersCarousel from "../components/OffersCarousel";
@@ -11,10 +11,10 @@ export default function Dashboard({ setCartOpen }) {
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="p-4 text-center text-xl space-y-8 dark:bg-black">
-        <section>
+        <section id="home">
           <OffersCarousel />
         </section>
-        <section id="mealsCard" className="scroll-mt-20">
+        <section id="meals" className="scroll-mt-20">
           <h2 className="text-2xl font-bold mb-4 text-center">
             Our Meal Options
           </h2>

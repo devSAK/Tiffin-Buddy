@@ -132,7 +132,7 @@ export default function ContactUs() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-[1.02] font-thin"
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-[1.02]"
         >
           Send Message
         </button>
@@ -149,15 +149,6 @@ export default function ContactUs() {
         <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
           Our Location
         </h3>
-        {/* <div>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-            <strong>Tiffin Buddy</strong>
-            <br />
-            Dhankal Bazar (Hatiara),
-            <br />
-            Kolkata, West Bengal 700059, India
-          </p>
-        </div> */}
 
         <div className="w-full aspect-[4/3] rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
           <iframe

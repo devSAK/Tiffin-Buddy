@@ -11,7 +11,7 @@ export default function SubscriptionCard({
   excludedFeatures = [],
   whatsappCatId,
 }) {
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
   const whatsappLink = `https://wa.me/p/${whatsappCatId}`;
 
   return (
@@ -55,7 +55,7 @@ export default function SubscriptionCard({
         ))}
       </ul>
 
-      <button className="mb-3 w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition">
+      <button className="mb-3 w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-white rounded-md transition">
         Meal Chart
       </button>
       {/* <button
@@ -68,7 +68,7 @@ export default function SubscriptionCard({
         href={whatsappLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="mb-3 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-center transition block"
+        className="mb-3 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-center transition block"
       >
         Choose Plan
       </a>
