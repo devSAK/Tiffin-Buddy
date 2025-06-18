@@ -1,0 +1,33 @@
+tiffin-buddy/
+├── client/ (Vite + React App)
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
+│   │   ├── components/
+│   │   ├── services/ (API calls)
+│   │   └── App.jsx
+│   └── index.html
+├── server/ (Express + MongoDB)
+│   ├── models/
+│   │   └── User.js
+│   ├── routes/
+│   │   └── authRoutes.js
+│   ├── controllers/
+│   │   └── authController.js
+│   ├── middleware/
+│   └── index.js
+└── .env
+
+1. Initialize Frontend (Vite + React + Tailwind)
+    -- npm create vite@latest client -- --template react
+    -- cd client
+    -- npm install
+    -- npm install -D tailwindcss postcss autoprefixer
+    -- npx tailwindcss init -p
+
+2. Set Up Backend (Express + MongoDB)
+    -- mkdir server && cd server
+    -- npm init -y
+    -- npm install express mongoose cors dotenv bcryptjs jsonwebtoken
+
