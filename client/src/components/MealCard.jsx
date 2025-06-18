@@ -10,6 +10,7 @@ export default function MealCard({
   value,
   rating,
   setCartOpen,
+  whatsappCatId,
 }) {
   const [hoveredRating, setHoveredRating] = useState(0);
   const { addToCart } = useCart();
@@ -25,10 +26,12 @@ export default function MealCard({
     );
   };
 
-  const handleOrder = () => {
-    addToCart({ id, title, price: value });
-    if (setCartOpen) setCartOpen(true);
-  };
+  // const handleOrder = () => {
+  //   addToCart({ id, title, price: value });
+  //   if (setCartOpen) setCartOpen(true);
+  // };
+
+  const whatsappLink = `https://wa.me/p/${whatsappCatId}`;
 
   return (
     <div
@@ -58,12 +61,20 @@ export default function MealCard({
         <p className="text-sm text-gray-700 dark:text-gray-200">₹{value}</p>
       </div>
 
-      <button
+      {/* <button
         onClick={handleOrder}
         className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition"
       >
         Order Now
-      </button>
+      </button> */}
+      <a
+        href={whatsappLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-center transition block"
+      >
+        Order Now
+      </a>
     </div>
   );
 }

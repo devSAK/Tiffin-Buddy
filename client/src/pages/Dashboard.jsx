@@ -27,6 +27,7 @@ export default function Dashboard({ setCartOpen }) {
                 description={meal.description}
                 value={meal.value}
                 rating={meal.rating}
+                whatsappCatId={meal.whatsappCatId}
                 setCartOpen={setCartOpen}
               />
             ))}
@@ -47,6 +48,7 @@ export default function Dashboard({ setCartOpen }) {
                 duration={plan.duration}
                 features={plan.features}
                 excludedFeatures={plan.excludedFeatures}
+                whatsappCatId={plan.whatsappCatId}
               />
             ))}
           </div>

@@ -7,6 +7,7 @@ export const plans = [
     duration: "day",
     features: ["2 Meals Delivered"],
     excludedFeatures: ["Free Delivery", "Pause/Resume Anytime"],
+    whatsappCatId: "9728129443976240/918343881788",
   },
   {
     id: "weekly",
@@ -16,6 +17,7 @@ export const plans = [
     duration: "week",
     features: ["14 Meals Delivered", "Free Delivery", "Pause/Resume Anytime"],
     excludedFeatures: [],
+    whatsappCatId: "9944193452365767/918343881788",
   },
   {
     id: "monthly",
@@ -25,6 +27,7 @@ export const plans = [
     duration: "month",
     features: ["60 Meals Delivered", "Free Delivery", "Pause/Resume Anytime"],
     excludedFeatures: [],
+    whatsappCatId: "9518796684891080/918343881788",
   },
   // {
   //   id: "custom",
@@ -38,5 +41,6 @@ export const plans = [
   //     "Pause/Resume Anytime",
   //   ],
   //   excludedFeatures: [],
+  //   whatsappCatId: "9518796684891080/918343881788",
   // },
 ];

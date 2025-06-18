@@ -18,7 +18,7 @@ export default function OfferBanner({ title, subtitle, description, image }) {
           <img
             src={image}
             alt="Offer Banner"
-            className="rounded-lg shadow-lg object-cover"
+            className="rounded-lg object-cover"
           />
         </div>
       </div>

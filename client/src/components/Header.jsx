@@ -75,7 +75,7 @@ export default function Header({
             </button>
           )}
 
-          <div className="relative">
+          {/* <div className="relative">
             <button
               onClick={() => setCartOpen(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
@@ -90,12 +90,12 @@ export default function Header({
                 {cartItemCount}
               </span>
             )}
-          </div>
+          </div> */}
         </div>
 
         {/* Mobile: Cart + Hamburger */}
         <div className="flex items-center space-x-3 md:hidden">
-          <button
+          {/* <button
             onClick={() => setCartOpen(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
             title="View Cart"
@@ -103,7 +103,7 @@ export default function Header({
             <Badge badgeContent={totalItems} color="error" showZero>
               <ShoppingCart fontSize="medium" />
             </Badge>
-          </button>
+          </button> */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-gray-800 dark:text-white"

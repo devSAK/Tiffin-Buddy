@@ -9,8 +9,10 @@ export default function SubscriptionCard({
   duration,
   features = [],
   excludedFeatures = [],
+  whatsappCatId,
 }) {
   const { addToCart } = useCart();
+  const whatsappLink = `https://wa.me/p/${whatsappCatId}`;
 
   return (
     <div
@@ -56,12 +58,20 @@ export default function SubscriptionCard({
       <button className="mb-3 w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition">
         Meal Chart
       </button>
-      <button
+      {/* <button
         onClick={() => addToCart({ id, title, duration, price: offerPrice })}
         className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
       >
         Choose Plan
-      </button>
+      </button> */}
+      <a
+        href={whatsappLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mb-3 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-center transition block"
+      >
+        Choose Plan
+      </a>
     </div>
   );
 }

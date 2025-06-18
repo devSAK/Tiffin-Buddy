@@ -8,6 +8,7 @@ export const meals = [
     rating: 4,
     description:
       "Whole meal of Plain Rice, Dal, Fry of the Day, Vegitable of the Day.",
+    whatsappCatId: "23932246113050541/918343881788",
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ export const meals = [
     rating: 4,
     description:
       "Whole meal of Plain Rice, Dal, Fry of the day, Soya Chunk Curry.",
+    whatsappCatId: "10063615083719856/918343881788",
   },
   {
     id: 3,
@@ -27,6 +29,7 @@ export const meals = [
     value: 75.0,
     rating: 5,
     description: "Whole meal of Plain Rice, Dal, Fry of the Day, Egg Curry.",
+    whatsappCatId: "24388006730787504/918343881788",
   },
   {
     id: 4,
@@ -36,6 +39,7 @@ export const meals = [
     value: 90.0,
     rating: 4.5,
     description: "Whole meal of Plain Rice, Dal, Fry of the Day, Fish Curry.",
+    whatsappCatId: "9932459493500220/918343881788",
   },
   {
     id: 5,
@@ -46,5 +50,6 @@ export const meals = [
     rating: 4,
     description:
       "Whole meal of Plain Rice, Dal, Fry of the day, Chicken Curry.",
+    whatsappCatId: "9932459493500220/918343881788",
   },
 ];
