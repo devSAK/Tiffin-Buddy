@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { userProtect, adminProtect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -45,9 +45,12 @@ router.post("/login", async (req, res) => {
 });
 
 // @route   GET /api/auth/me
-router.get("/me", protect, async (req, res) => {
-  console.log("User from token:", req.user); // 🔍 Debug log
+router.get("/me", userProtect, async (req, res) => {
   res.json({ user: req.user });
+});
+
+router.get("/profile", adminProtect, async (req, res) => {
+  res.json({ admin: req.admin });
 });
 
 export default router;

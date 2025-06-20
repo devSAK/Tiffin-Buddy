@@ -1,7 +1,7 @@
 import express from "express";
-import { adminSignup, adminLogin } from "../controllers/adminController.js";
 import Admin from "../models/Admin.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { adminSignup, adminLogin } from "../controllers/adminController.js";
+import { userProtect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.post("/signup", adminSignup);
 router.post("/login", adminLogin);
 
 // Protected route
-router.get("/profile", protect, async (req, res) => {
+router.get("/profile", userProtect, async (req, res) => {
   try {
     const admin = await Admin.findById(req.adminId).select("-password");
     if (!admin) {

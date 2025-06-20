@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: Tiffin Buddy API
+  version: 1.0.0
+  description: API documentation for the Tiffin Buddy Backend
+
+servers:
+  - url: http://localhost:5111
+
+paths:
+  /api/auth/signup:
+    post:
+      summary: User signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: Signup successful
+        "409":
+          description: User already exists
+        "400":
+          description: Missing credentials
+
+  /api/auth/login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+
+  /api/orders:
+    post:
+      summary: Create new order
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      title:
+                        type: string
+                      quantity:
+                        type: integer
+                      price:
+                        type: number
+      responses:
+        "201":
+          description: Order created
+
+  /api/analytics/summary:
+    get:
+      summary: Admin dashboard analytics
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Summary data
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -9,11 +9,17 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
+
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 // Middlewares
 app.use(
@@ -25,6 +31,9 @@ app.use(
 app.use(express.json());
 app.use("/api/contact", contactRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Database Connection
 connectDB();
