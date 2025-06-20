@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axiosConfig";
 
 const API = axios.create({
   baseURL: "http://localhost:5111/api", // replace with your production URL if deployed

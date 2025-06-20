@@ -1,4 +1,5 @@
 import express from "express";
+import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -18,11 +19,11 @@ router.post("/signup", async (req, res) => {
     await user.save();
     res.status(201).json({ message: "Signup successful" });
   } catch (err) {
-    console.error("Signup error:", err);
+    console.error("Signup error:", err); // ✅ See full error in console
     if (err.code === 11000) {
       return res.status(409).json({ message: "User already exists" });
     }
-    res.status(500).json({ message: "Signup failed" });
+    res.status(500).json({ message: "Signup failed", error: err.message });
   }
 });
 
@@ -45,6 +46,7 @@ router.post("/login", async (req, res) => {
 
 // @route   GET /api/auth/me
 router.get("/me", protect, async (req, res) => {
+  console.log("User from token:", req.user); // 🔍 Debug log
   res.json({ user: req.user });
 });
 

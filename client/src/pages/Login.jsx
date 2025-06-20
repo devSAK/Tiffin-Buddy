@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import { login } from "../api/auth";
+import { login as loginApi } from "../api/auth"; // ✅ Renamed import
 import { useAuth } from "../context/AuthContext";
 
 export default function Login({ onSwitch }) {
@@ -9,7 +9,7 @@ export default function Login({ onSwitch }) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
-  const { login } = useAuth();
+  const { login: loginContext } = useAuth(); // ✅ Renamed from context
 
   const validate = () => {
     const newErrors = {};
@@ -41,10 +41,9 @@ export default function Login({ onSwitch }) {
     if (!validate()) return;
 
     try {
-      const res = await login(identifier, password);
+      const res = await loginApi(identifier, password); // ✅ Call API
+      loginContext(res.data.token, res.data.user); // ✅ Set context
       alert("Login success!");
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      onLoginSuccess(); // trigger dashboard update
     } catch (err) {
       alert(err.response?.data?.message || "Login failed.");
     }
@@ -54,6 +53,7 @@ export default function Login({ onSwitch }) {
     <div className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md">
       <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
       <form onSubmit={handleLogin} className="space-y-4">
+        {/* Identifier Field */}
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
             Email or Phone
@@ -68,7 +68,6 @@ export default function Login({ onSwitch }) {
               errors.identifier
                 ? "border-red-500 dark:border-red-400"
                 : "focus:ring-blue-500 dark:focus:ring-blue-300"
-            }
             }`}
           />
           {errors.identifier && (
@@ -76,6 +75,7 @@ export default function Login({ onSwitch }) {
           )}
         </div>
 
+        {/* Password Field */}
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
             Password
@@ -87,10 +87,9 @@ export default function Login({ onSwitch }) {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.identifier
+                errors.password
                   ? "border-red-500 dark:border-red-400"
                   : "focus:ring-blue-500 dark:focus:ring-blue-300"
-              }
               }`}
               required
             />
@@ -124,6 +123,7 @@ export default function Login({ onSwitch }) {
           Login
         </button>
       </form>
+
       <p className="text-sm mt-4 text-center">
         Don't have an account?{" "}
         <button onClick={onSwitch} className="text-blue-600 hover:underline">

@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { meals } from "../data/meals";
 import { plans } from "../data/plans";
 
@@ -8,6 +11,38 @@ import ContactUs from "../components/ContactUs";
 import CustomerFeedback from "../components/CustomerFeedback";
 
 export default function Dashboard({ setCartOpen }) {
+  const [subscription, setSubscription] = useState(null);
+  const toggleDayMeal = async (day, value) => {
+    try {
+      const res = await axios.put(
+        `/api/subscription/${subscription._id}/update-daily`,
+        {
+          day,
+          value,
+        }
+      );
+      setSubscription((prev) => ({
+        ...prev,
+        dailyMeals: { ...prev.dailyMeals, [day]: value },
+      }));
+    } catch (err) {
+      console.error("Error updating meal preference:", err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+        const res = await axios.get("/api/subscription/me"); // adjust endpoint if needed
+        setSubscription(res.data);
+      } catch (error) {
+        console.error("Failed to fetch subscription:", error);
+      }
+    };
+
+    fetchSubscription();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="p-4 text-center text-xl space-y-8 dark:bg-black">
@@ -52,6 +87,27 @@ export default function Dashboard({ setCartOpen }) {
               />
             ))}
           </div>
+        </section>
+        <section>
+          {subscription && (
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold mb-2">Meal Preferences</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {Object.entries(subscription.dailyMeals).map(
+                  ([day, isActive]) => (
+                    <label key={day} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={isActive}
+                        onChange={() => toggleDayMeal(day, !isActive)}
+                      />
+                      <span>{day}</span>
+                    </label>
+                  )
+                )}
+              </div>
+            </div>
+          )}
         </section>
         <section
           id="feedback"

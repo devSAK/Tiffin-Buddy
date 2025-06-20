@@ -1,6 +1,21 @@
+// src/axiosConfig.js
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5111";
-axios.defaults.headers.common["Content-Type"] = "application/json";
+// Create an axios instance
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5111", // change if needed
+});
 
-export default axios;
+// Add a request interceptor
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+export default instance;

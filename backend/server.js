@@ -3,9 +3,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 
-import authRoutes from "./routes/authRoutes.js"; // Make sure this file also uses `export`
+import authRoutes from "./routes/authRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 
@@ -20,6 +23,11 @@ app.use(
   })
 );
 app.use(express.json());
+app.use("/api/contact", contactRoutes);
+app.use("/api/admin", adminRoutes);
+
+// Database Connection
+connectDB();
 
 // Routes
 app.use("/api/auth", authRoutes);

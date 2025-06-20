@@ -1,34 +1,42 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const UserSchema = new mongoose.Schema(
-  {
-    identifier: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
+const mealScheduleSchema = new mongoose.Schema({
+  date: { type: Date, required: true },
+  mealStatus: {
+    type: String,
+    enum: ["on", "off"],
+    default: "on",
   },
-  { timestamps: true }
-);
-
-// Hash password before saving
-UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
-// Match password for login
-UserSchema.methods.matchPassword = async function (password) {
-  return bcrypt.compare(password, this.password);
+const userSchema = new mongoose.Schema({
+  identifier: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  isSubscribed: {
+    type: Boolean,
+    default: false,
+  },
+  isPaused: {
+    type: Boolean,
+    default: false,
+  },
+  subscriptionStart: Date,
+  subscriptionEnd: Date,
+  mealSchedule: [mealScheduleSchema],
+});
+
+// Password comparison method
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", userSchema);
 export default User;
