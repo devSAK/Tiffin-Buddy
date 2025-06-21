@@ -31,3 +31,7 @@ tiffin-buddy/
     -- npm init -y
     -- npm install express mongoose cors dotenv bcryptjs jsonwebtoken
 
+3. Swagger UI
+    -- http://localhost:5111/api-docs
+
+

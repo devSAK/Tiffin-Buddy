@@ -1,19 +1,27 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import CheckoutPage from "./pages/CheckoutPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
 import MainLayout from "./layout/MainLayout";
+
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
@@ -22,15 +30,15 @@ export default function App() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem("token");
   };
 
-  const handleShowLogin = () => {
-    setShowLogin(true);
-  };
+  const handleShowLogin = () => setShowLogin(true);
+  const handleHideLogin = () => setShowLogin(false);
 
   if (showLogin && !isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
         {isSignup ? (
           <Signup
             onSwitch={() => setIsSignup(false)}
@@ -49,45 +57,35 @@ export default function App() {
   return (
     <Router>
       <Routes>
+        {/* Public */}
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        {/* MAIN CONSUMER ROUTE */}
         <Route
           path="/"
           element={
-            <MainLayout
-              onLoginClick={handleShowLogin}
-              isAuthenticated={isAuthenticated}
-              onLogout={handleLogout}
-              cartOpen={cartOpen}
-              setCartOpen={setCartOpen}
-            >
+            <MainLayout>
               <Dashboard
                 onLoginClick={handleShowLogin}
                 isAuthenticated={isAuthenticated}
                 onLogout={handleLogout}
-                setCartOpen={setCartOpen}
               />
             </MainLayout>
           }
         />
+        {/* CHECKOUT PAGE */}
         <Route
           path="/checkout"
           element={
-            <MainLayout
-              onLoginClick={handleShowLogin}
-              isAuthenticated={isAuthenticated}
-              onLogout={handleLogout}
-            >
+            <MainLayout>
               <CheckoutPage />
             </MainLayout>
           }
         />
+        {/* LEGAL PAGES */}
         <Route
           path="/privacy-policy"
           element={
-            <MainLayout
-              onLoginClick={handleShowLogin}
-              isAuthenticated={isAuthenticated}
-              onLogout={handleLogout}
-            >
+            <MainLayout>
               <PrivacyPolicy />
             </MainLayout>
           }
@@ -95,15 +93,19 @@ export default function App() {
         <Route
           path="/terms-and-conditions"
           element={
-            <MainLayout
-              onLoginClick={handleShowLogin}
-              isAuthenticated={isAuthenticated}
-              onLogout={handleLogout}
-            >
+            <MainLayout>
               <TermsAndConditions />
             </MainLayout>
           }
         />
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" />} />
+
+        {/* Admin Routes */}
+        <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+          {/* ADMIN DASHBOARD */}
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
       </Routes>
     </Router>
   );

@@ -1,5 +1,6 @@
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import { useCart } from "../context/CartContext";
+import MealChart from "../components/MealChart";
 
 export default function SubscriptionCard({
   id,
@@ -56,7 +57,7 @@ export default function SubscriptionCard({
       </ul>
 
       <button className="mb-3 w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-white rounded-md transition">
-        Meal Chart
+        <MealChart plan={planType} />
       </button>
       {/* <button
         onClick={() => addToCart({ id, title, duration, price: offerPrice })}

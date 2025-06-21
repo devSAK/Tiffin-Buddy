@@ -13,6 +13,7 @@ export default function Header({
   cartItemCount,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const isAdmin = user?.role === "admin";
   const [activeSection, setActiveSection] = useState("");
 
   // const totalItems = (cartItems || []).reduce(
