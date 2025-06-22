@@ -1,51 +1,6 @@
-// import { createContext, useContext, useEffect, useState } from "react";
-// import axios from "../../axiosConfig";
-
-// const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [token, setToken] = useState(localStorage.getItem("token") || "");
-
-//   useEffect(() => {
-//     if (token) {
-//       axios
-//         .get("/api/auth/me", {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         })
-//         .then((res) => setUser(res.data.user))
-//         .catch(() => logout());
-//     }
-//   }, [token]);
-
-//   const login = (token, user) => {
-//     localStorage.setItem("token", token);
-//     setToken(token);
-//     setUser(user);
-//   };
-
-//   const logout = () => {
-//     localStorage.removeItem("token");
-//     setToken("");
-//     setUser(null);
-//   };
-
-//   return (
-//     <AuthContext.Provider
-//       value={{ user, token, login, logout, isAuthenticated: !!user }}
-//     >
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const useAuth = () => useContext(AuthContext);
-
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "../utils/axiosInstance";
-import { jwtDecode } from "jwt-decode";
+// import axios from "../utils/axiosInstance";
+import * as jwtDecode from "jwt-decode"; // ESM-compatible import
 
 const AuthContext = createContext();
 
@@ -53,8 +8,19 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem("token") || "");
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
-    return saved ? JSON.parse(saved) : null;
+    try {
+      return saved ? JSON.parse(saved) : null;
+    } catch (error) {
+      console.error("Invalid user data in localStorage:", error);
+      localStorage.removeItem("user"); // Clean up corrupted data
+      return null;
+    }
   });
+
+  // const instance = axios.create({
+  //   baseURL: "http://localhost:5111", // ✅ Match your backend port
+  //   withCredentials: false,
+  // });
 
   const login = (token, userData) => {
     setToken(token);
@@ -72,11 +38,10 @@ export const AuthProvider = ({ children }) => {
 
   const isAdmin = user?.role === "admin";
 
-  // Optional: Refresh from localStorage on mount
   useEffect(() => {
     if (token && !user) {
       try {
-        const decoded = jwtDecode(token);
+        const decoded = jwtDecode.jwtDecode(token); // <- Use this format
         setUser({ identifier: decoded.identifier, role: decoded.role });
       } catch (err) {
         logout();

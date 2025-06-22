@@ -14,23 +14,26 @@ import AdminDashboard from "./pages/AdminDashboard";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
-import MainLayout from "./layout/MainLayout";
 
+import MainLayout from "./layout/MainLayout";
 import PrivateRoute from "./routes/PrivateRoute";
+import { useAuth } from "./context/AuthContext";
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { login, logout, isAuthenticated, isAdmin } = useAuth();
+
   const [isSignup, setIsSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
 
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
+  const handleLoginSuccess = (token, userData) => {
+    login(token, userData);
     setShowLogin(false);
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("token");
+    logout();
   };
 
   const handleShowLogin = () => setShowLogin(true);
@@ -57,31 +60,44 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Public */}
+        {/* 🔓 Public Route */}
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
-        {/* MAIN CONSUMER ROUTE */}
+
+        {/* 🏠 Main Landing Route */}
         <Route
           path="/"
           element={
-            <MainLayout>
-              <Dashboard
-                onLoginClick={handleShowLogin}
-                isAuthenticated={isAuthenticated}
-                onLogout={handleLogout}
-              />
+            <MainLayout
+              onLoginClick={handleShowLogin}
+              isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+              cartOpen={cartOpen}
+              setCartOpen={setCartOpen}
+              cartItems={cartItems}
+            >
+              <Dashboard setCartOpen={setCartOpen} />
             </MainLayout>
           }
         />
-        {/* CHECKOUT PAGE */}
+
+        {/* 🧾 Checkout */}
         <Route
           path="/checkout"
           element={
-            <MainLayout>
+            <MainLayout
+              onLoginClick={handleShowLogin}
+              isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+              cartOpen={cartOpen}
+              setCartOpen={setCartOpen}
+              cartItems={cartItems}
+            >
               <CheckoutPage />
             </MainLayout>
           }
         />
-        {/* LEGAL PAGES */}
+
+        {/* 📜 Legal */}
         <Route
           path="/privacy-policy"
           element={
@@ -98,14 +114,14 @@ export default function App() {
             </MainLayout>
           }
         />
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" />} />
 
-        {/* Admin Routes */}
+        {/* 🔐 Admin-only Protected Route */}
         <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-          {/* ADMIN DASHBOARD */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Route>
+
+        {/* 🧭 Catch-all */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

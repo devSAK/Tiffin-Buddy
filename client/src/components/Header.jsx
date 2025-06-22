@@ -6,6 +6,7 @@ import DarkModeToggle from "./DarkModeToggle";
 
 export default function Header({
   onLoginClick,
+  onLogout,
   setCartOpen,
   cartItems,
   cartItemCount,

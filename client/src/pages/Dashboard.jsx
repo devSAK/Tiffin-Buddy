@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
+import { useAuth } from "../context/AuthContext";
 
 import { meals } from "../data/meals";
 import { plans } from "../data/plans";
@@ -11,14 +12,18 @@ import ContactUs from "../components/ContactUs";
 import CustomerFeedback from "../components/CustomerFeedback";
 
 export default function Dashboard({ setCartOpen }) {
+  const { token, isAuthenticated } = useAuth();
   const [subscription, setSubscription] = useState(null);
+
   const toggleDayMeal = async (day, value) => {
     try {
       const res = await axios.put(
         `/api/subscription/${subscription._id}/update-daily`,
+        { day, value },
         {
-          day,
-          value,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setSubscription((prev) => ({
@@ -32,8 +37,11 @@ export default function Dashboard({ setCartOpen }) {
 
   useEffect(() => {
     const fetchSubscription = async () => {
+      if (!isAuthenticated) return;
       try {
-        const res = await axios.get("/api/subscription/me"); // adjust endpoint if needed
+        const res = await axios.get("/api/subscription/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setSubscription(res.data);
       } catch (error) {
         console.error("Failed to fetch subscription:", error);
@@ -41,7 +49,7 @@ export default function Dashboard({ setCartOpen }) {
     };
 
     fetchSubscription();
-  }, []);
+  }, [isAuthenticated, token]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,6 +57,7 @@ export default function Dashboard({ setCartOpen }) {
         <section id="home">
           <OffersCarousel />
         </section>
+
         <section id="meals" className="scroll-mt-20">
           <h2 className="text-2xl font-bold mb-4 text-center">
             Our Meal Options
@@ -89,8 +98,10 @@ export default function Dashboard({ setCartOpen }) {
             ))}
           </div>
         </section>
-        <section>
-          {subscription && (
+
+        {/* Meal Preferences Only If Logged In and Subscribed */}
+        {isAuthenticated && subscription && (
+          <section>
             <div className="mt-4">
               <h3 className="text-lg font-semibold mb-2">Meal Preferences</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -108,12 +119,10 @@ export default function Dashboard({ setCartOpen }) {
                 )}
               </div>
             </div>
-          )}
-        </section>
-        <section
-          id="feedback"
-          className="bg-gray-50 dark:bg-gray-900 py-16 px-4 sm:px-6 lg:px-8"
-        >
+          </section>
+        )}
+
+        <section id="feedback" className="bg-gray-50 dark:bg-gray-900 py-16">
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-2xl font-bold mb-4 text-center">
               What Our Customers Say
@@ -124,6 +133,7 @@ export default function Dashboard({ setCartOpen }) {
             <CustomerFeedback />
           </div>
         </section>
+
         <section
           id="contactus"
           className="w-full bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8"

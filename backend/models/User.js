@@ -20,8 +20,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    default: "user",
+  },
   isSubscribed: {
-    type: Boolean,
+    type: String,
     default: false,
   },
   isPaused: {
@@ -38,5 +42,4 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const User = mongoose.model("User", userSchema);
-export default User;
+export default mongoose.model("User", userSchema);

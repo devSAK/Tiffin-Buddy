@@ -19,7 +19,6 @@ export default function MainLayout({
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-white">
       <Header
         onLoginClick={onLoginClick}
-        isAuthenticated={isAuthenticated}
         onLogout={onLogout}
         setCartOpen={setCartOpen}
         cartItemCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
