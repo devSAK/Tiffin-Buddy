@@ -1,4 +1,5 @@
-// models/Subscription.js
+import mongoose from "mongoose";
+
 const subscriptionSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   planId: { type: mongoose.Schema.Types.ObjectId, ref: "Plan" },
@@ -19,3 +20,5 @@ const subscriptionSchema = new mongoose.Schema({
     },
   },
 });
+
+export default mongoose.model("Subscription", subscriptionSchema);

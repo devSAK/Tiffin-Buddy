@@ -1,39 +1,30 @@
 import { useState } from "react";
 import { Menu, Close, ShoppingCart } from "@mui/icons-material";
+import { useAuth } from "../context/AuthContext";
+import { Badge } from "@mui/material";
 import DarkModeToggle from "./DarkModeToggle";
-// import { Badge } from "@mui/material";
 
 export default function Header({
   onLoginClick,
-  isAuthenticated,
-  logout,
-  user,
   setCartOpen,
   cartItems,
   cartItemCount,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const isAdmin = user?.role === "admin";
+  const { user, logout, isAuthenticated } = useAuth();
+
   const [activeSection, setActiveSection] = useState("");
+  // const isAdmin = user?.role === "admin";
 
-  // const totalItems = (cartItems || []).reduce(
-  //   (acc, item) => acc + item.quantity,
-  //   0
-  // );
-
-  // const handleScroll = (id) => {
-  //   const el = document.getElementById(id);
-  //   if (el) {
-  //     el.scrollIntoView({ behavior: "smooth" });
-  //     setMenuOpen(false);
-  //   }
-  // };
+  const totalItems = (cartItems || []).reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
   const handleScroll = (id) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
-      setActiveSection(id);
       setMenuOpen(false);
     }
   };
@@ -81,14 +72,14 @@ export default function Header({
         {/* Right Section (desktop only) */}
         <div className="hidden md:flex items-center space-x-4 ml-auto">
           <DarkModeToggle />
-          {/* {isAuthenticated ? (
+          {isAuthenticated ? (
             <>
-              <span className="text-gray-800 dark:text-white">
+              <span className="text-gray-800 dark:text-white text-sm">
                 {user?.identifier}
               </span>
               <button
                 onClick={logout}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
               >
                 Logout
               </button>
@@ -96,33 +87,23 @@ export default function Header({
           ) : (
             <button
               onClick={onLoginClick}
-              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
             >
               Login
             </button>
-          )} */}
-
-          {/* <div className="relative">
-            <button
-              onClick={() => setCartOpen(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
-              title="View Cart"
-            >
-              <Badge badgeContent={totalItems} color="error" showZero>
-                <ShoppingCart fontSize="medium" />
-              </Badge>
-            </button>
-            {cartItemCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                {cartItemCount}
-              </span>
-            )}
-          </div> */}
+          )}
+          <button
+            onClick={() => setCartOpen(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
+            title="View Cart"
+          >
+            <ShoppingCart fontSize="medium" />
+          </button>
         </div>
 
         {/* Mobile: Cart + Hamburger */}
         <div className="flex items-center space-x-3 md:hidden">
-          {/* <button
+          <button
             onClick={() => setCartOpen(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
             title="View Cart"
@@ -130,7 +111,7 @@ export default function Header({
             <Badge badgeContent={totalItems} color="error" showZero>
               <ShoppingCart fontSize="medium" />
             </Badge>
-          </button> */}
+          </button>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-gray-800 dark:text-white"
@@ -155,7 +136,7 @@ export default function Header({
             </button>
           </nav>
 
-          {/* <div className="flex flex-col space-y-3 mt-3">
+          <div className="flex flex-col space-y-3 mt-3">
             {isAuthenticated ? (
               <>
                 <span className="text-gray-800 dark:text-white text-sm">
@@ -176,7 +157,7 @@ export default function Header({
                 Login
               </button>
             )}
-          </div> */}
+          </div>
         </div>
       )}
     </header>

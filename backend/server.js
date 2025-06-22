@@ -11,6 +11,7 @@ import contactRoutes from "./routes/contactRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
+import subscriptionRoutes from "./routes/subscriptionRoutes.js";
 
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
@@ -33,6 +34,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/subscription", subscriptionRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Database Connection

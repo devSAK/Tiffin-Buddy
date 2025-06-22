@@ -14,7 +14,7 @@ export default function MainLayout({
   setCartOpen,
   cartItems = [],
 }) {
-  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  //   const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-white">
       <Header

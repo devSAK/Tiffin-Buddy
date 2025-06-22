@@ -77,6 +77,7 @@ export default function Dashboard({ setCartOpen }) {
             {plans.map((plan) => (
               <SubscriptionCard
                 key={plan.id}
+                plan={plan}
                 title={plan.title}
                 actualPrice={plan.actualPrice}
                 offerPrice={plan.offerPrice}
