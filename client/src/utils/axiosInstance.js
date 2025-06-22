@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Set the base URL depending on your backend URL or proxy setup
 const instance = axios.create({
-  baseURL: "http://localhost:5111/api",
+  // baseURL: "http://localhost:5111/api",
+  baseURL: "https://your-backend-service-name.onrender.com/api", // backend origin onrender
   withCredentials: false,
   headers: {
     "Content-Type": "application/json",

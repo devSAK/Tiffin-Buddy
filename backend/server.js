@@ -25,7 +25,8 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 // Middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend origin
+    // origin: "http://localhost:5173", // frontend origin
+    origin: "https://tiffin-buddy.onrender.com/", // frontend origin onrender
     credentials: true,
   })
 );
