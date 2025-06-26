@@ -1,26 +1,41 @@
 import { useState } from "react";
-import { Menu, Close, ShoppingCart } from "@mui/icons-material";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Button,
+  Badge,
+  Menu,
+  MenuItem,
+  Typography,
+  Box,
+  Avatar,
+} from "@mui/material";
+import {
+  Menu as MenuIcon,
+  ShoppingCartOutlined as ShoppingCartIcon,
+  Close,
+} from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
+import { badgeClasses } from "@mui/material/Badge";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+
 import { useAuth } from "../context/AuthContext";
-import { Badge } from "@mui/material";
 import DarkModeToggle from "./DarkModeToggle";
 
-export default function Header({
-  onLoginClick,
-  onLogout,
-  setCartOpen,
-  cartItems,
-  cartItemCount,
-}) {
+const CartBadge = styled(Badge)`
+  & .${badgeClasses.badge} {
+    top: -12px;
+    right: -6px;
+  }
+`;
+
+const Header = ({ onLoginClick, onLogout, setCartOpen, cartItems = [] }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const { user, logout, isAuthenticated } = useAuth();
 
-  const [activeSection, setActiveSection] = useState("");
-  // const isAdmin = user?.role === "admin";
-
-  const totalItems = (cartItems || []).reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const handleScroll = (id) => {
     const el = document.getElementById(id);
@@ -30,137 +45,150 @@ export default function Header({
     }
   };
 
+  const handleMenu = (e) => setAnchorEl(e.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
   return (
-    <header className="w-full bg-white dark:bg-gray-900 p-4 shadow sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto flex items-center justify-between md:justify-start md:space-x-6">
-        {/* Left - Logo */}
-        <img
-          src="/logo.png"
-          alt="Logo"
-          className="h-12 w-12 object-cover rounded-lg"
-        />
+    <AppBar position="sticky" color="default" className="dark:bg-gray-900">
+      <Toolbar className="max-w-7xl mx-auto w-full flex justify-between items-center">
+        {/* Left: Logo and Nav */}
+        <Box className="flex items-center space-x-4">
+          <img
+            src="/logo.png"
+            alt="Logo"
+            className="h-10 w-10 object-cover rounded-lg"
+          />
 
-        {/* Center - Dark Mode Toggle (mobile only) */}
-        <div className="md:hidden flex-1 flex justify-center">
-          <DarkModeToggle />
-        </div>
-
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex space-x-6 font-medium text-gray-800 dark:text-white flex-1">
-          {[
-            { id: "home", label: "Home" },
-            { id: "meals", label: "Meals" },
-            { id: "subscription", label: "Subscription" },
-            { id: "contactus", label: "Contact Us" },
-          ].map(({ id, label }) => (
-            <button
-              key={id}
-              onClick={() => handleScroll(id)}
-              className={`relative pb-1 transition-all duration-400 hover:text-yellow-500 dark:hover:text-yellow-300 ${
-                activeSection === id
-                  ? "text-yellow-500 dark:text-yellow-300 font-medium"
-                  : ""
-              }`}
-            >
-              {label}
-              {activeSection === id && (
-                <span className="absolute left-0 bottom-0 h-[2px] w-full bg-yellow-500 dark:bg-yellow-300 rounded-full transition-all duration-300"></span>
-              )}
-            </button>
-          ))}
-        </nav>
-
-        {/* Right Section (desktop only) */}
-        <div className="hidden md:flex items-center space-x-4 ml-auto">
-          <DarkModeToggle />
-          {isAuthenticated ? (
-            <>
-              <span className="text-gray-800 dark:text-white text-sm">
-                {user?.identifier}
-              </span>
+          {/* Desktop Nav Links */}
+          <Box className="hidden md:flex space-x-6 text-gray-800 dark:text-white ml-4">
+            {[
+              { id: "home", label: "Home" },
+              { id: "meals", label: "Meals" },
+              { id: "subscription", label: "Subscription" },
+              { id: "contactus", label: "Contact Us" },
+            ].map(({ id, label }) => (
               <button
-                onClick={logout}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+                key={id}
+                onClick={() => handleScroll(id)}
+                className="hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors"
               >
-                Logout
+                {label}
               </button>
-            </>
-          ) : (
-            <button
-              onClick={onLoginClick}
-              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
-            >
-              Login
-            </button>
-          )}
-          <button
-            onClick={() => setCartOpen(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
-            title="View Cart"
-          >
-            <ShoppingCart fontSize="medium" />
-          </button>
-        </div>
+            ))}
+          </Box>
+        </Box>
 
-        {/* Mobile: Cart + Hamburger */}
-        <div className="flex items-center space-x-3 md:hidden">
-          <button
-            onClick={() => setCartOpen(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
-            title="View Cart"
+        {/* Right: Icons */}
+        <Box className="flex items-center space-x-2">
+          <DarkModeToggle />
+
+          <IconButton onClick={() => setCartOpen(true)} color="success">
+            <CartBadge badgeContent={totalItems} color="error">
+              <ShoppingCartIcon />
+            </CartBadge>
+          </IconButton>
+
+          <IconButton
+            size="small"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="inherit"
           >
-            <Badge badgeContent={totalItems} color="error" showZero>
-              <ShoppingCart fontSize="medium" />
-            </Badge>
-          </button>
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="text-gray-800 dark:text-white"
-            title="Menu"
+            <Avatar alt={user?.identifier || "Guest"} />
+            {/* <AccountCircle alt={user?.identifier || "Guest"} /> */}
+          </IconButton>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            {menuOpen ? <Close /> : <Menu />}
-          </button>
-        </div>
-      </div>
+            {isAuthenticated ? (
+              <>
+                <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                    handleClose();
+                    onLogout?.();
+                  }}
+                >
+                  Logout
+                </MenuItem>
+              </>
+            ) : (
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  onLoginClick?.();
+                }}
+              >
+                Login
+              </MenuItem>
+            )}
+          </Menu>
+
+          {/* Mobile menu toggle */}
+          <Box className="md:hidden">
+            <IconButton onClick={() => setMenuOpen(!menuOpen)}>
+              {menuOpen ? <Close /> : <MenuIcon />}
+            </IconButton>
+          </Box>
+        </Box>
+      </Toolbar>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden mt-3 px-6 py-4 bg-white dark:bg-gray-800 space-y-4">
+        <Box className="md:hidden px-6 py-4 bg-white dark:bg-gray-800 space-y-4">
           <nav className="flex flex-col space-y-3 text-gray-800 dark:text-white">
-            <button onClick={() => handleScroll("home")}>Home</button>
-            <button onClick={() => handleScroll("meals")}>Meals</button>
-            <button onClick={() => handleScroll("subscription")}>
-              Subscription
-            </button>
-            <button onClick={() => handleScroll("contactus")}>
-              Contact Us
-            </button>
+            {[
+              { id: "home", label: "Home" },
+              { id: "meals", label: "Meals" },
+              { id: "subscription", label: "Subscription" },
+              { id: "contactus", label: "Contact Us" },
+            ].map(({ id, label }) => (
+              <button key={id} onClick={() => handleScroll(id)}>
+                {label}
+              </button>
+            ))}
           </nav>
 
           <div className="flex flex-col space-y-3 mt-3">
             {isAuthenticated ? (
               <>
-                <span className="text-gray-800 dark:text-white text-sm">
+                <span className="text-sm text-gray-800 dark:text-white">
                   {user?.identifier}
                 </span>
-                <button
-                  onClick={logout}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="error"
+                  onClick={() => {
+                    logout();
+                    onLogout?.();
+                  }}
                 >
                   Logout
-                </button>
+                </Button>
               </>
             ) : (
-              <button
+              <Button
+                size="small"
+                variant="contained"
+                color="success"
                 onClick={onLoginClick}
-                className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
               >
                 Login
-              </button>
+              </Button>
             )}
           </div>
-        </div>
+        </Box>
       )}
-    </header>
+    </AppBar>
   );
-}
+};
+
+export default Header;

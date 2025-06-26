@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { IconButton } from "@mui/material";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
 export default function DarkModeToggle() {
   const [isDark, setIsDark] = useState(
@@ -25,7 +27,9 @@ export default function DarkModeToggle() {
       onClick={() => setIsDark(!isDark)}
       aria-label="Toggle Dark Mode"
     >
-      {isDark ? <FaSun /> : <FaMoon />}
+      <IconButton color="inherit">
+        {isDark ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+      </IconButton>
     </button>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Star, StarBorder } from "@mui/icons-material";
 import { useCart } from "../context/CartContext";
+import { Button } from "@mui/material";
 
 export default function MealCard({
   id,
@@ -61,12 +62,15 @@ export default function MealCard({
         <p className="text-sm text-gray-700 dark:text-gray-200">₹{value}</p>
       </div>
 
-      {/* <button
+      {/* <Button
+        size="small"
+        variant="contained"
+        color="success"
         onClick={handleOrder}
-        className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition"
+        // className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition"
       >
         Order Now
-      </button> */}
+      </Button> */}
       <a
         href={whatsappLink}
         target="_blank"
