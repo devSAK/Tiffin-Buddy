@@ -1,26 +1,41 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "../utils/axiosInstance";
+import { Button, CircularProgress } from "@mui/material";
 import BackButton from "../components/BackButton";
 
-export default function Signup({ onLoginSuccess, onSwitch }) {
+export default function Signup({ onLoginSuccess, onSwitch, isAdmin = false }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      const res = await axios.post("/auth/signup", { identifier, password });
-      const loginRes = await axios.post("/auth/login", {
-        identifier,
+      const endpoint = isAdmin ? "/admin/signup" : "/auth/signup";
+      const loginEndpoint = isAdmin ? "/admin/login" : "/auth/login";
+
+      // Step 1: Sign up
+      await axios.post(endpoint, {
+        email: identifier.trim(), // for admin
+        identifier: identifier.trim(), // for user
         password,
       });
 
-      login(loginRes.data.token, loginRes.data.user);
+      // Step 2: Login
+      const loginRes = await axios.post(loginEndpoint, {
+        email: identifier.trim(), // for admin
+        identifier: identifier.trim(), // for user
+        password,
+      });
+
+      // Step 3: Store token + user
+      login(loginRes.data.token, loginRes.data.user || loginRes.data.admin);
 
       if (onLoginSuccess) onLoginSuccess();
     } catch (err) {
@@ -28,20 +43,21 @@ export default function Signup({ onLoginSuccess, onSwitch }) {
       setError(
         err.response?.data?.message || "Signup failed. Please try again."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="p-4">
-      <BackButton label="Back to Home" />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
-          Sign Up
+          {isAdmin ? "Admin Sign Up" : "Sign Up"}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Email or Phone
+              {isAdmin ? "Email" : "Email or Phone"}
             </label>
             <input
               type="text"
@@ -65,22 +81,32 @@ export default function Signup({ onLoginSuccess, onSwitch }) {
             />
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <button
+          <Button
+            fullWidth
+            size="large"
+            variant="contained"
+            color="success"
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
+            disabled={loading}
+            startIcon={
+              loading && <CircularProgress size={20} color="inherit" />
+            }
           >
-            Sign Up
-          </button>
-          <p className="text-sm text-center text-gray-700 dark:text-gray-300 mt-2">
-            Already have an account?{" "}
-            <button
-              type="button"
-              onClick={onSwitch}
-              className="text-blue-600 hover:underline"
-            >
-              Login
-            </button>
-          </p>
+            {loading ? "Signing up..." : "Sign Up"}
+          </Button>
+          <BackButton />
+          {!isAdmin && (
+            <p className="text-sm text-center text-gray-700 dark:text-gray-300 mt-2">
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={onSwitch}
+                className="text-blue-600 hover:underline"
+              >
+                Login
+              </button>
+            </p>
+          )}
         </form>
       </div>
     </div>

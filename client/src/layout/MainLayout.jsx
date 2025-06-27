@@ -24,9 +24,9 @@ export default function MainLayout({
         cartItemCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
       />
       <main className="flex-grow">{children}</main>
-      <Footer />
-      <WhatsAppButton />
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <WhatsAppButton />
+      <Footer />
     </div>
   );
 }

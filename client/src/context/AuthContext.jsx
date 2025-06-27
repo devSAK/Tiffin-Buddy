@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-// import axios from "../utils/axiosInstance";
-import * as jwtDecode from "jwt-decode"; // ESM-compatible import
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -12,15 +11,10 @@ export const AuthProvider = ({ children }) => {
       return saved ? JSON.parse(saved) : null;
     } catch (error) {
       console.error("Invalid user data in localStorage:", error);
-      localStorage.removeItem("user"); // Clean up corrupted data
+      localStorage.removeItem("user");
       return null;
     }
   });
-
-  // const instance = axios.create({
-  //   baseURL: "http://localhost:5111", // ✅ Match your backend port
-  //   withCredentials: false,
-  // });
 
   const login = (token, userData) => {
     setToken(token);
@@ -41,9 +35,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token && !user) {
       try {
-        const decoded = jwtDecode.jwtDecode(token); // <- Use this format
+        const decoded = jwtDecode(token);
         setUser({ identifier: decoded.identifier, role: decoded.role });
       } catch (err) {
+        console.error("Invalid token:", err.message);
         logout();
       }
     }
@@ -51,7 +46,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ token, user, login, logout, isAdmin, isAuthenticated: !!token }}
+      value={{
+        token,
+        user,
+        isAuthenticated: !!token,
+        isAdmin,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

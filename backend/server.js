@@ -1,5 +1,3 @@
-// server.js (ES Module version)
-
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -25,8 +23,8 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 // Middlewares
 app.use(
   cors({
-    // origin: "http://localhost:5173", // frontend origin
-    origin: "https://tiffin-buddy.onrender.com/", // frontend origin onrender
+    // origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://tiffin-buddy.onrender.com"],
     credentials: true,
   })
 );

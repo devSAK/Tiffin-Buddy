@@ -1,11 +1,9 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+import bcrypt from "bcryptjs";
+import User from "../models/User.js";
+import { generateToken } from "../utils/generateToken.js";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-// Register
-exports.registerUser = async (req, res) => {
+// User signup
+export const registerUser = async (req, res) => {
   const { identifier, password } = req.body;
   try {
     const existingUser = await User.findOne({ identifier });
@@ -13,31 +11,34 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ identifier, password: hashedPassword });
-    await newUser.save();
+    const newUser = await User.create({ identifier, password: hashedPassword });
+    const token = generateToken(newUser._id, newUser.role);
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      token,
+      user: { identifier: newUser.identifier, role: newUser.role },
+    });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.error("User signup error:", err);
+    res.status(500).json({ message: "Signup failed" });
   }
 };
 
-// Login
-exports.loginUser = async (req, res) => {
+// User login
+export const loginUser = async (req, res) => {
   const { identifier, password } = req.body;
   try {
     const user = await User.findOne({ identifier });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "7d",
-    });
-    res.json({ token });
+    const token = generateToken(user._id, user.role);
+    res.json({ token, user: { identifier: user.identifier, role: user.role } });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.error("User login error:", err);
+    res.status(500).json({ message: "Login failed" });
   }
 };

@@ -9,6 +9,7 @@ export default function BackButton({ label = "Go Back" }) {
   //   if (!showBack) return null;
   return (
     <Button
+      fullWidth
       size="medium"
       variant="contained"
       color="success"

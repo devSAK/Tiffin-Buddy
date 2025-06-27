@@ -22,11 +22,6 @@ export default function DarkModeToggle() {
   }, [isDark]);
 
   return (
-    // <Button
-    //   className="text-xl p-2 text-yellow-500 dark:text-white hover:scale-110 transition"
-    //   onClick={() => setIsDark(!isDark)}
-    //   aria-label="Toggle Dark Mode"
-    // >
     <IconButton
       aria-label="Toggle Dark Mode"
       onClick={() => setIsDark(!isDark)}
@@ -37,6 +32,5 @@ export default function DarkModeToggle() {
         <DarkModeOutlinedIcon />
       )}
     </IconButton>
-    // </Button>
   );
 }
