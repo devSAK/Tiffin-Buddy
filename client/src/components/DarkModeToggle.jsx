@@ -22,14 +22,21 @@ export default function DarkModeToggle() {
   }, [isDark]);
 
   return (
-    <button
-      className="text-xl p-2 text-yellow-500 dark:text-white hover:scale-110 transition"
-      onClick={() => setIsDark(!isDark)}
+    // <Button
+    //   className="text-xl p-2 text-yellow-500 dark:text-white hover:scale-110 transition"
+    //   onClick={() => setIsDark(!isDark)}
+    //   aria-label="Toggle Dark Mode"
+    // >
+    <IconButton
       aria-label="Toggle Dark Mode"
+      onClick={() => setIsDark(!isDark)}
     >
-      <IconButton color="inherit">
-        {isDark ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
-      </IconButton>
-    </button>
+      {isDark ? (
+        <LightModeOutlinedIcon color="success" />
+      ) : (
+        <DarkModeOutlinedIcon />
+      )}
+    </IconButton>
+    // </Button>
   );
 }

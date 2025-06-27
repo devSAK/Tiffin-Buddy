@@ -1,4 +1,5 @@
 import { Instagram, LinkedIn, WhatsApp, Facebook } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -23,36 +24,36 @@ export default function Footer() {
           </h3>
           <ul className="space-y-1">
             <li>
-              <a
-                href="/privacy-policy"
+              <Link
+                to="/privacy-policy"
                 className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
               >
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/terms-and-conditions"
+              <Link
+                to="/terms-and-conditions"
                 className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
               >
                 Terms & Conditions
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/legal-info"
+              <Link
+                to="/legal-info"
                 className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
               >
                 Legal Info
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="#"
                 className="hover:text-yellow-500 hover:font-medium dark:hover:text-yellow-300"
               >
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

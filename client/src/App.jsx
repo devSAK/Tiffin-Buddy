@@ -17,6 +17,7 @@ import UnauthorizedPage from "./pages/UnauthorizedPage";
 
 import MainLayout from "./layout/MainLayout";
 import PrivateRoute from "./routes/PrivateRoute";
+import LegalInfo from "./pages/LegalInfo";
 import { useAuth } from "./context/AuthContext";
 
 export default function App() {
@@ -111,6 +112,14 @@ export default function App() {
           element={
             <MainLayout>
               <TermsAndConditions />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/legal-info"
+          element={
+            <MainLayout>
+              <LegalInfo />
             </MainLayout>
           }
         />
