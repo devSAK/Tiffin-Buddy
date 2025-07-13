@@ -15,7 +15,7 @@ export default function CartDrawer({ isOpen, onClose }) {
       </div>
 
       <div className="p-4 space-y-4">
-        {cartItems.length === 0 ? (
+        {/* {cartItems.length === 0 ? (
           <p className="text-sm text-gray-500 dark:text-gray-300">
             Cart is empty.
           </p>
@@ -38,7 +38,27 @@ export default function CartDrawer({ isOpen, onClose }) {
               </button>
             </div>
           ))
-        )}
+        )} */}
+        {cartItems.map((item) => (
+          <div key={item.id} className="flex items-center justify-between py-2">
+            <span>{item.title}</span>
+            <div className="flex items-center">
+              <button
+                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+              >
+                -
+              </button>
+              <span className="mx-2">{item.quantity}</span>
+              <button
+                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+              >
+                +
+              </button>
+            </div>
+            <span>₹{item.price * item.quantity}</span>
+            <button onClick={() => removeFromCart(item.id)}>Remove</button>
+          </div>
+        ))}
       </div>
 
       {cartItems.length > 0 && (

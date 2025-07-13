@@ -3,7 +3,7 @@ import { TextField, Button, Typography, Paper } from "@mui/material";
 
 export default function AdminLogin({ onLoginSuccess }) {
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [error, setError] = useState("");
@@ -43,7 +43,7 @@ export default function AdminLogin({ onLoginSuccess }) {
         <TextField
           fullWidth
           label="Username"
-          name="username"
+          name="email"
           variant="outlined"
           margin="normal"
           value={credentials.username}

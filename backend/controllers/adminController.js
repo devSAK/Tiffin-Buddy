@@ -6,7 +6,7 @@ const createToken = (admin) => {
   return jwt.sign(
     { id: admin._id, email: admin.email, role: "admin" },
     process.env.JWT_SECRET,
-    { expiresIn: "10s" }
+    { expiresIn: "1d" }
   );
 };
 
